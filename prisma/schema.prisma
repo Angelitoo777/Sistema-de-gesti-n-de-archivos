@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Modelo User
+// Almacena información básica del usuario (para autenticación)
+model User {
+  // Campos del Usuario
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String // Aquí guardas el hash de la contraseña
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  // Un usuario puede tener múltiples archivos
+  files FileMetadata[]
+}
+
+// 2. Modelo FileMetadata
+// Almacena los metadatos de los archivos subidos a S3
+model FileMetadata {
+  // Campos de Metadatos
+  id           String   @id @default(uuid())
+  originalName String // Nombre que el usuario le dio al subirlo
+  s3Key        String   @unique // **CLAVE CRÍTICA**: Path/Key del objeto en S3 (ej: 'user-1/images/photo-123.jpg')
+  mimeType     String // Tipo de archivo (ej: 'image/jpeg')
+  size         Int // Tamaño del archivo en bytes
+  bucketName   String // Nombre del bucket de S3
+  isPublic     Boolean  @default(false) // Define si es accesible sin autenticación (opcional)
+  uploadDate   DateTime @default(now())
+
+  // Relación con el Usuario
+  // Cada archivo pertenece a un usuario (Relación N:1)
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+}
