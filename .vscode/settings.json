@@ -1,0 +1,4 @@
+{
+    "material-icon-theme.activeIconPack": "nest",
+    "prisma.prisma-extension.prismaConfig.envFile": ".env"
+}
