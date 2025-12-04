@@ -21,6 +21,8 @@
     "prisma:dev": "dotenv -e .env npx prisma migrate dev --name init"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.943.0",
+    "@aws-sdk/s3-request-presigner": "^3.943.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -53,6 +55,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.19.1",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
